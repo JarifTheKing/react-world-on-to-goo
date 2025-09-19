@@ -1,4 +1,4 @@
-import React, { use } from 'react';
+import React, { use, useState } from 'react';
 import Country from '../Country/Country';
 import './countries.css'
 
@@ -7,12 +7,37 @@ const Countries = ({ countriesPromise }) => {
 
     const countries = countriesData.countries
 
+    const [visitedCountries, setVisitedCountries] = useState([])
+
+    const handleVisitedCountries = (country) => {
+
+        const newVisitedCountries = [...visitedCountries, country]
+        setVisitedCountries(newVisitedCountries)
+    }
+
     return (
         <div>
-            <h1 style={{textAlign: 'center', color: 'gold', border: '1px solid white', padding: '10px', borderRadius: '10px'}}>Welcome to Countries  {countries.length}</h1>
+            <h1 style={{ textAlign: 'center', color: 'gold', border: '1px solid white', padding: '10px', borderRadius: '10px' }}>Welcome to Countries  {countries.length}</h1>
+            <h3 style={{
+                textAlign: 'center',
+                border: '1px solid green',
+                width: '40%',
+                margin: 'auto',
+                padding: '10px',
+                borderRadius: '10px',
+                marginBottom: '20px'
+            }}>Total Visited Countries:  {visitedCountries.length}</h3>
+
+            <ol>
+                {
+                    visitedCountries.map(country => <li key={country.cca3.cca3}>{country.name.common}</li>)
+                }
+
+            </ol>
+
             <div className='countries'>
                 {
-                    countries.map(country => <Country country={country}></Country>)
+                    countries.map(country => <Country key={country.cca3.cca3} country={country} handleVisitedCountries={handleVisitedCountries}></Country>)
                 }
             </div>
         </div>
